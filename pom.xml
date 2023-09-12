@@ -11,11 +11,29 @@
 	<groupId>com.ackerman</groupId>
 	<artifactId>ecommerce-website</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ecommerce-website</name>
+    <packaging>pom</packaging>
+    <name>ecommerce-website</name>
 	<description> E-Shop Express is a user-friendly e-commerce web application for online shopping</description>
-	<properties>
+    <modules>
+        <module>registrationMicroservice</module>
+		<module>apigw</module>
+	</modules>
+    <properties>
 		<java.version>20</java.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>3.1.3</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+<!--	Dependencies which will be included to each child submodule-->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -27,6 +45,9 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
