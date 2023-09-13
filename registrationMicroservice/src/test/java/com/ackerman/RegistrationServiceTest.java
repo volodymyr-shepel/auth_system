@@ -58,7 +58,7 @@ public class RegistrationServiceTest {
         AppUser result = registrationService.createUserFromDTO(appUserDTO);
 
         // Assert
-        assertEquals(appUserDTO.username(), result.getUsername());
+        assertEquals(appUserDTO.email(), result.getUsername());
         assertEquals(appUserDTO.firstName(), result.getFirstName());
         assertEquals(appUserDTO.lastName(), result.getLastName());
         assertEquals(encodedPassword, result.getPassword());
@@ -71,7 +71,7 @@ public class RegistrationServiceTest {
         AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "StrongP@ssw0rd");
         doNothing().when(passwordValidator).validate("StrongP@ssw0rd");
 
-        AppUser createdUser = new AppUser(1, appUserDTO.username(), appUserDTO.firstName(), appUserDTO.lastName(), "encodedPassword", UserRole.USER);
+        AppUser createdUser = new AppUser(1, appUserDTO.email(), appUserDTO.firstName(), appUserDTO.lastName(), "encodedPassword", UserRole.USER);
         when(appUserRepository.saveAndFlush(any(AppUser.class))).thenReturn(createdUser);
 
         // Act
@@ -93,4 +93,5 @@ public class RegistrationServiceTest {
         assertThrows(PasswordValidationException.class, () -> registrationService.register(appUserDTO));
         verify(appUserRepository, never()).saveAndFlush(any(AppUser.class));
     }
+
 }

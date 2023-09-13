@@ -28,25 +28,25 @@ public class AppUser implements UserDetails {
     private Integer id;
 
 
-    // the username is an email address
+    // the email is an email address
     @Email
-    @Column(name = "username",unique = true)
-    private String username;
+    @Column(name = "email",unique = true)
+    private String email;
 
-    @NotBlank
+    @NotBlank(message = "first name can not be blank")
     @Column(name = "first_name",length = 50)
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "last name can not be blank")
     @Column(name = "last_name",length = 50)
     private String lastName;
 
     //BcryptPasswordEncoder generally produces the string of length 60 characters
-    @NotBlank
+    // The password validation is implemented so not null or not blank is not needed
     @Column(name = "password",length = 100)
     private String password;
 
-    @NotNull
+    @NotNull(message = "role can not be null")
     @Column(name = "role",length = 30)
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -63,8 +63,8 @@ public class AppUser implements UserDetails {
     // Constructors
     public AppUser(){}
 
-    public AppUser(String username, String firstName, String lastName, String password, UserRole role) {
-        this.username = username;
+    public AppUser(String email, String firstName, String lastName, String password, UserRole role) {
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -73,13 +73,13 @@ public class AppUser implements UserDetails {
 
     public AppUser(
             Integer id,
-            String username,
+            String email,
             String firstName,
             String lastName,
             String password,
             UserRole role) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -130,7 +130,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
     // Account can not expire
@@ -157,8 +157,8 @@ public class AppUser implements UserDetails {
 
     // SETTERS
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setFirstName(String firstName) {

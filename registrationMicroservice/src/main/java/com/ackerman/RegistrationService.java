@@ -44,7 +44,7 @@ public class RegistrationService {
     protected AppUser createUserFromDTO(AppUserDTO appUserDTO) {
         String encodedPassword = encodePassword(appUserDTO.password());
         return new AppUser(
-                appUserDTO.username(),
+                appUserDTO.email(),
                 appUserDTO.firstName(),
                 appUserDTO.lastName(),
                 encodedPassword,
