@@ -48,7 +48,7 @@ public class RegistrationServiceTest {
     @Test
     public void testCreateUserFromDTO() {
         // Arrange
-        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "password123");
+        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "StrongP@ssw0rd");
         String encodedPassword = "encodedPassword";
 
         // Mock the behavior of the PasswordEncoder
@@ -69,7 +69,7 @@ public class RegistrationServiceTest {
     public void testRegisterUserWithValidPassword() {
         // Arrange
         AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "StrongP@ssw0rd");
-        when(passwordValidator.test(appUserDTO.password())).thenReturn(true);
+        doNothing().when(passwordValidator).validate("StrongP@ssw0rd");
 
         AppUser createdUser = new AppUser(1, appUserDTO.username(), appUserDTO.firstName(), appUserDTO.lastName(), "encodedPassword", UserRole.USER);
         when(appUserRepository.saveAndFlush(any(AppUser.class))).thenReturn(createdUser);
@@ -86,7 +86,8 @@ public class RegistrationServiceTest {
     public void testRegisterUserWithInvalidPassword() {
         // Arrange
         AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "weak");
-        when(passwordValidator.test(appUserDTO.password())).thenReturn(false);
+        doThrow(PasswordValidationException.class).when(passwordValidator).validate("weak");
+
 
         // Act and Assert
         assertThrows(PasswordValidationException.class, () -> registrationService.register(appUserDTO));

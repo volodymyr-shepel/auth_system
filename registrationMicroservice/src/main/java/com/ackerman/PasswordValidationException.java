@@ -1,5 +1,6 @@
 package com.ackerman;
 
+// PasswordValidationException is invoked when validation of the password fails
 public class PasswordValidationException extends RuntimeException {
     private static final String DEFAULT_MESSAGE = "Password does not meet security requirements";
 

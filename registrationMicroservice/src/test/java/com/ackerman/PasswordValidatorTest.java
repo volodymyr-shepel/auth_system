@@ -3,8 +3,7 @@ package com.ackerman;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PasswordValidatorTest {
 
@@ -20,11 +19,8 @@ public class PasswordValidatorTest {
         // Arrange
         String validPassword = "StrongP@ssw0rd";
 
-        // Act
-        boolean result = passwordValidator.test(validPassword);
-
-        // Assert
-        assertTrue(result);
+        // Act & Assert
+        assertDoesNotThrow(() -> passwordValidator.validate(validPassword));
     }
 
     @Test
@@ -32,11 +28,8 @@ public class PasswordValidatorTest {
         // Arrange
         String tooShortPassword = "Short1!";
 
-        // Act
-        boolean result = passwordValidator.test(tooShortPassword);
-
-        // Assert
-        assertFalse(result);
+        // Act & Assert
+        assertThrows(PasswordValidationException.class, () -> passwordValidator.validate(tooShortPassword));
     }
 
     @Test
@@ -44,11 +37,8 @@ public class PasswordValidatorTest {
         // Arrange
         String missingUppercase = "lowercase123!";
 
-        // Act
-        boolean result = passwordValidator.test(missingUppercase);
-
-        // Assert
-        assertFalse(result);
+        // Act & Assert
+        assertThrows(PasswordValidationException.class, () -> passwordValidator.validate(missingUppercase));
     }
 
     @Test
@@ -56,11 +46,8 @@ public class PasswordValidatorTest {
         // Arrange
         String missingLowercase = "UPPERCASE123!";
 
-        // Act
-        boolean result = passwordValidator.test(missingLowercase);
-
-        // Assert
-        assertFalse(result);
+        // Act & Assert
+        assertThrows(PasswordValidationException.class, () -> passwordValidator.validate(missingLowercase));
     }
 
     @Test
@@ -68,11 +55,8 @@ public class PasswordValidatorTest {
         // Arrange
         String missingSpecialCharacter = "MixedCase1234";
 
-        // Act
-        boolean result = passwordValidator.test(missingSpecialCharacter);
-
-        // Assert
-        assertFalse(result);
+        // Act & Assert
+        assertThrows(PasswordValidationException.class, () -> passwordValidator.validate(missingSpecialCharacter));
     }
 
     @Test
@@ -80,10 +64,7 @@ public class PasswordValidatorTest {
         // Arrange
         String validMinimumLength = "Aa!1Bb@2Cc#3Dd$4Ee%5";
 
-        // Act
-        boolean result = passwordValidator.test(validMinimumLength);
-
-        // Assert
-        assertTrue(result);
+        // Act & Assert
+        assertDoesNotThrow(() -> passwordValidator.validate(validMinimumLength));
     }
 }

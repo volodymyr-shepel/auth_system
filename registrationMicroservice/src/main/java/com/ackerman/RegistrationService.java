@@ -23,7 +23,7 @@ public class RegistrationService {
 
     public ResponseEntity<Integer> register(AppUserDTO appUserDTO) {
         // used to validate the password
-        validatePassword(appUserDTO.password());
+        passwordValidator.validate(appUserDTO.password());
 
         // Creating AppUser instance from the DTO object
         AppUser createdUser = createUserFromDTO(appUserDTO);
@@ -38,12 +38,6 @@ public class RegistrationService {
     }
 
     // validating the password provided by a user
-    private void validatePassword(String password){
-        // throws PasswordValidationException exception if password does not satisfy all security requirements
-        if(!passwordValidator.test(password)){
-            throw new PasswordValidationException();
-        };
-    }
     protected String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
     }
