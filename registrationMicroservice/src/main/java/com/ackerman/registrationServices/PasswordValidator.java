@@ -1,5 +1,6 @@
-package com.ackerman;
+package com.ackerman.registrationServices;
 
+import com.ackerman.exception.PasswordValidationException;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;

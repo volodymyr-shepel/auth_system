@@ -6,12 +6,14 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+
+
+// Used to configure security for api gateway
 @EnableWebFluxSecurity
 @Configuration
 
 public class SecurityConfiguration {
     @Bean
-
     public SecurityWebFilterChain  securityWebFilterChain(ServerHttpSecurity http) {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable);
         http

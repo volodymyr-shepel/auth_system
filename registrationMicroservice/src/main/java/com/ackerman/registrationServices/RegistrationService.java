@@ -1,5 +1,9 @@
-package com.ackerman;
+package com.ackerman.registrationServices;
 
+import com.ackerman.appUser.AppUser;
+import com.ackerman.appUser.AppUserDTO;
+import com.ackerman.appUser.AppUserRepository;
+import com.ackerman.appUser.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +42,10 @@ public class RegistrationService {
     }
 
     // validating the password provided by a user
-    protected String encodePassword(String rawPassword) {
+    public String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
     }
-    protected AppUser createUserFromDTO(AppUserDTO appUserDTO) {
+    public AppUser createUserFromDTO(AppUserDTO appUserDTO) {
         String encodedPassword = encodePassword(appUserDTO.password());
         return new AppUser(
                 appUserDTO.email(),

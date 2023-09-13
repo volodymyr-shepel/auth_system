@@ -1,5 +1,12 @@
 package com.ackerman;
 
+import com.ackerman.appUser.AppUser;
+import com.ackerman.appUser.AppUserDTO;
+import com.ackerman.appUser.AppUserRepository;
+import com.ackerman.appUser.UserRole;
+import com.ackerman.exception.PasswordValidationException;
+import com.ackerman.registrationServices.PasswordValidator;
+import com.ackerman.registrationServices.RegistrationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

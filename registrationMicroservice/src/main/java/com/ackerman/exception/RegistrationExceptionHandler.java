@@ -1,4 +1,4 @@
-package com.ackerman;
+package com.ackerman.exception;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;

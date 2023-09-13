@@ -1,4 +1,4 @@
-package com.ackerman;
+package com.ackerman.appUser;
 
 public enum UserRole {
     USER,

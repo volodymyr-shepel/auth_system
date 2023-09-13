@@ -1,4 +1,4 @@
-package com.ackerman;
+package com.ackerman.exception;
 
 // PasswordValidationException is invoked when validation of the password fails
 public class PasswordValidationException extends RuntimeException {

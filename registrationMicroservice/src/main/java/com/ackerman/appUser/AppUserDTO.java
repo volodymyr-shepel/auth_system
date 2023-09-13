@@ -1,4 +1,4 @@
-package com.ackerman;
+package com.ackerman.appUser;
 
 // used during registration request
 public record AppUserDTO(String email,

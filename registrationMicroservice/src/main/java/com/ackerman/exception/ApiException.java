@@ -1,4 +1,4 @@
-package com.ackerman;
+package com.ackerman.exception;
 
 import org.springframework.http.HttpStatus;
 
