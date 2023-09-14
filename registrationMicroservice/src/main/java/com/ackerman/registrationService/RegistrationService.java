@@ -52,6 +52,7 @@ public class RegistrationService {
         this.rabbitMQMessageProducer = rabbitMQMessageProducer;
     }
 
+
     public ResponseEntity<Integer> register(AppUserDTO appUserDTO) {
 
         // used to validate the password

@@ -50,9 +50,10 @@ public class ConfirmationTokenService {
         if (LocalDateTime.now().isAfter(confirmationToken.getExpiresAt())) {
             throw new InvalidConfirmationTokenException("Token has expired");
         }
+
         AppUser appUser = appUserRepository.findByEmail(
                 confirmationToken.getAppUser().getUsername()).orElseThrow(() ->
-                new InvalidConfirmationTokenException("The user with provided email does not exist"));
+                new InvalidConfirmationTokenException("There is no user associated with this confirmation token"));
 
         confirmationToken.setConfirmedAt(LocalDateTime.now());
 

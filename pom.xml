@@ -96,6 +96,12 @@
 				<version>${spring.boot.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-amqp</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -124,6 +130,12 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.28</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.9</version>
 		</dependency>
 	</dependencies>
 

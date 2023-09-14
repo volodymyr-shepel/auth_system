@@ -1,14 +1,18 @@
 package com.ackerman;
 
+import com.ackerman.amqp.RabbitMQMessageProducer;
 import com.ackerman.appUser.AppUser;
 import com.ackerman.appUser.AppUserDTO;
 import com.ackerman.appUser.AppUserRepository;
 import com.ackerman.appUser.UserRole;
+import com.ackerman.confirmationToken.ConfirmationTokenService;
 import com.ackerman.exception.PasswordValidationException;
 import com.ackerman.registrationService.PasswordValidator;
 import com.ackerman.registrationService.RegistrationService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,22 +27,35 @@ public class RegistrationServiceTest {
 
     @Mock
     private AppUserRepository appUserRepository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
-
     @Mock
     private PasswordValidator passwordValidator;
-
 
     @Mock
     private TemplateEngine templateEngine;
 
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.initMocks(this);
-//        registrationService = new RegistrationService(appUserRepository, passwordEncoder, passwordValidator,templateEngine);
-//    }
+    @Mock
+    private ConfirmationTokenService confirmationTokenService;
+
+    @Mock
+    private RabbitMQMessageProducer rabbitMQMessageProducer;
+
+    public RegistrationServiceTest() {
+    }
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        registrationService = new RegistrationService(
+                appUserRepository,
+                passwordEncoder,
+                passwordValidator,
+                templateEngine,
+                confirmationTokenService,
+                rabbitMQMessageProducer
+        );
+    }
     @Test
     public void testEncodePassword() {
         // Arrange
