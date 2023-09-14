@@ -25,6 +25,7 @@ public class AppUser implements UserDetails {
             generator = "user_sequence")
 
 
+
     private Integer id;
 
 

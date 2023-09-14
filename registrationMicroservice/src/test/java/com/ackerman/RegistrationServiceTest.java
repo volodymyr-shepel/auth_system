@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.TemplateEngine;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,11 +32,15 @@ public class RegistrationServiceTest {
     @Mock
     private PasswordValidator passwordValidator;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        registrationService = new RegistrationService(appUserRepository, passwordEncoder, passwordValidator);
-    }
+
+    @Mock
+    private TemplateEngine templateEngine;
+
+//    @BeforeEach
+//    public void setUp() {
+//        MockitoAnnotations.initMocks(this);
+//        registrationService = new RegistrationService(appUserRepository, passwordEncoder, passwordValidator,templateEngine);
+//    }
     @Test
     public void testEncodePassword() {
         // Arrange
