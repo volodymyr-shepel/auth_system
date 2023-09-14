@@ -1,4 +1,4 @@
-package com.ackerman.registrationServices;
+package com.ackerman.registrationService;
 
 import com.ackerman.exception.PasswordValidationException;
 import org.springframework.stereotype.Service;

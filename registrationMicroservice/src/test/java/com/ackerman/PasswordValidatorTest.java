@@ -1,7 +1,7 @@
 package com.ackerman;
 
 import com.ackerman.exception.PasswordValidationException;
-import com.ackerman.registrationServices.PasswordValidator;
+import com.ackerman.registrationService.PasswordValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

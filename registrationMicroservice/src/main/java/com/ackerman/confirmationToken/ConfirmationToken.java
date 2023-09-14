@@ -1,4 +1,4 @@
-package com.ackerman;
+package com.ackerman.confirmationToken;
 
 import com.ackerman.appUser.AppUser;
 import jakarta.persistence.*;
@@ -25,8 +25,8 @@ public class ConfirmationToken {
     @Column(nullable = true)
     private LocalDateTime confirmedAt;
 
-    // The user may have confirmation tokens associated with them in case they cannot
-    // confirm it promptly or do not receive the email.
+    // The user may have multiple confirmation tokens associated with them in case they cannot
+    // confirm it in time or do not receive the email.
     @NotNull
     @ManyToOne
     private AppUser appUser;

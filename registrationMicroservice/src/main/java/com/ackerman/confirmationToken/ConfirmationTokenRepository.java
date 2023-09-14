@@ -1,5 +1,6 @@
-package com.ackerman;
+package com.ackerman.confirmationToken;
 
+import com.ackerman.confirmationToken.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

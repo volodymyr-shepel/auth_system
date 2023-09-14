@@ -1,6 +1,6 @@
 package com.ackerman;
 
-import com.ackerman.clients.notification.NotificationRequest;
+import com.ackerman.clients.email.ConfirmationRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class EmailService {
     }
 
     @Async
-    public ResponseEntity<String> send(NotificationRequest notificationRequest) {
+    public ResponseEntity<String> send(ConfirmationRequest confirmationRequest) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper =
@@ -34,9 +34,9 @@ public class EmailService {
             String from = environment.getProperty("app.email-from");
             String fromName = environment.getProperty("app.email-from-name");
 
-            helper.setText(notificationRequest.email(), true);
-            helper.setTo(notificationRequest.senderEmail());
-            helper.setSubject(notificationRequest.topic());
+            helper.setText(confirmationRequest.email(), true);
+            helper.setTo(confirmationRequest.senderEmail());
+            helper.setSubject(confirmationRequest.subject());
             helper.setFrom(from, fromName);
             javaMailSender.send(mimeMessage);
 

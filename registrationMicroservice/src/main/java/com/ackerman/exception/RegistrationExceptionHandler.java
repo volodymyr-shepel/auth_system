@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RegistrationExceptionHandler {
     @ExceptionHandler(value = {
-            PasswordValidationException.class
+            PasswordValidationException.class,
+            InvalidConfirmationTokenException.class
     })
     public ResponseEntity<Object> handleCustomExceptions(RuntimeException e) {
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;

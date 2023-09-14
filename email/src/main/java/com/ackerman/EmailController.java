@@ -1,6 +1,6 @@
 package com.ackerman;
 
-import com.ackerman.clients.notification.NotificationRequest;
+import com.ackerman.clients.email.ConfirmationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +17,8 @@ public class EmailController {
     }
 
     @PostMapping(path = "sendEmail")
-    public ResponseEntity<String> sendEmail(@RequestBody NotificationRequest notificationRequest){
-        return emailService.send(notificationRequest);
+    public ResponseEntity<String> sendEmail(@RequestBody ConfirmationRequest confirmationRequest){
+        return emailService.send(confirmationRequest);
     }
     @GetMapping(path = "test")
     public String test(){
