@@ -6,10 +6,9 @@ import com.ackerman.appUser.AppUserRepository;
 import com.ackerman.appUser.UserRole;
 import com.ackerman.clients.email.EmailClient;
 import com.ackerman.clients.email.ConfirmationRequest;
-import com.ackerman.confirmationToken.ConfirmationToken;
-import com.ackerman.confirmationToken.ConfirmationTokenRepository;
 import com.ackerman.confirmationToken.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,10 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
+
 
 
 //TODO:REFACTOR
@@ -28,28 +25,30 @@ import java.time.LocalDateTime;
 @Service
 public class RegistrationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+    private final AppUserRepository appUserRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordValidator passwordValidator;
 
-    private final AppUserRepository appUserRepository; // +
-    private final PasswordEncoder passwordEncoder;// +
-    private final PasswordValidator passwordValidator; // +
+    private final TemplateEngine templateEngine;
 
-    private final TemplateEngine templateEngine; // ?
+    private final ConfirmationTokenService confirmationTokenService;
 
-    private final ConfirmationTokenService confirmationTokenService; // +
 
-    private final ConfirmationTokenRepository confirmationTokenRepository; // ?
+    private final EmailClient emailClient;
 
-    private final EmailClient emailClient; // +
+    @Value("${app.api-gateway-address}")
+    private String apiGatewayUrl;
+
+    @Value("${app.confirmation-email-template}")
+    private String confirmationEmailTemplateName;
 
     @Autowired
-    public RegistrationService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, PasswordValidator passwordValidator, TemplateEngine templateEngine, ConfirmationTokenService confirmationTokenService, ConfirmationTokenRepository confirmationTokenRepository, EmailClient emailClient) {
+    public RegistrationService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, PasswordValidator passwordValidator, TemplateEngine templateEngine, ConfirmationTokenService confirmationTokenService, EmailClient emailClient) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordValidator = passwordValidator;
         this.templateEngine = templateEngine;
         this.confirmationTokenService = confirmationTokenService;
-        this.confirmationTokenRepository = confirmationTokenRepository;
         this.emailClient = emailClient;
     }
 
@@ -71,6 +70,7 @@ public class RegistrationService {
         ConfirmationRequest confirmationRequest = createConfirmationRequest(createdUser.getUsername(),link,createdUser.getFirstName());
 
 
+        //TODO: send it to message queue
         //send request to email service with the use of feign client
         emailClient.sendEmail(confirmationRequest);
 
@@ -104,12 +104,13 @@ public class RegistrationService {
     }
 
 
-    // Generate confirmation link which will be included in email, by clicking on which user will activate account
+    // Generate confirmation link which will be included in email, by clicking on which user will make request to
+    // registration microservice through api gateway. In result account will be activated
+
     private String generateConfirmationLink(AppUser createdUser) {
         String token = confirmationTokenService.generateConfirmationToken(createdUser);
         // TODO: change so it sends on the service not on direct ip address
-        String baseUrl = "http://localhost:8080"; // send request to api gateway
-        return baseUrl + "/api/confirm?token=" + token;
+        return apiGatewayUrl + "/api/confirm?token=" + token;
     }
 
 
@@ -119,7 +120,7 @@ public class RegistrationService {
         context.setVariable("link", link);
         context.setVariable("name", name);
 
-        return templateEngine.process("confirmation-email-template", context);
+        return templateEngine.process(confirmationEmailTemplateName, context);
     }
 
     //Used to create confirmation request which will be sent to the email service
