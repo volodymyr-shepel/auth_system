@@ -18,8 +18,9 @@
         <module>registrationMicroservice</module>
 		<module>apigw</module>
         <module>eureka-server</module>
-        <module>EmailSender</module>
         <module>clients</module>
+        <module>clients</module>
+        <module>email</module>
     </modules>
     <properties>
 		<java.version>20</java.version>

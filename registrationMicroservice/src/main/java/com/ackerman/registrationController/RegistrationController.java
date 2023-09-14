@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/registration")
+@RequestMapping(path = "/api")
 public class RegistrationController {
     private final RegistrationService registrationService;
 
@@ -21,7 +21,7 @@ public class RegistrationController {
         return registrationService.register(appUserDTO);
     }
 
-    @PutMapping(path = "confirm")
+    @GetMapping(path = "confirm")
     public ResponseEntity<String> confirmEmail(@RequestParam("token") String token) {
         return registrationService.confirmEmail(token);
     }

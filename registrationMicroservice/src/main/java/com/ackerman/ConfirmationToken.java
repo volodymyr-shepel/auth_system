@@ -3,9 +3,7 @@ package com.ackerman;
 import com.ackerman.appUser.AppUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 public class ConfirmationToken {
@@ -38,6 +36,9 @@ public class ConfirmationToken {
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
         this.appUser = appUser;
+    }
+    public ConfirmationToken(){
+
     }
 
     public Long getId() {

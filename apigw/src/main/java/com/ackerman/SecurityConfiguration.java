@@ -20,7 +20,7 @@ public class SecurityConfiguration {
                 .authorizeExchange((exchanges) ->exchanges
                 .pathMatchers("/api/**").permitAll()
                 //.pathMatchers("/api/**").authenticated()
-                .anyExchange().authenticated());
+                .anyExchange().permitAll());
 
 
         return http.build();

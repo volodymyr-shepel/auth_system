@@ -1,12 +1,12 @@
 package com.ackerman.registrationServices;
 
-import com.ackerman.ConfirmationToken;
-import com.ackerman.ConfirmationTokenRepository;
-import com.ackerman.ConfirmationTokenService;
+import com.ackerman.*;
 import com.ackerman.appUser.AppUser;
 import com.ackerman.appUser.AppUserDTO;
 import com.ackerman.appUser.AppUserRepository;
 import com.ackerman.appUser.UserRole;
+import com.ackerman.clients.notification.NotificationClient;
+import com.ackerman.clients.notification.NotificationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,14 +38,17 @@ public class RegistrationService {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
+    private final NotificationClient notificationClient;
+
     @Autowired
-    public RegistrationService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, PasswordValidator passwordValidator, TemplateEngine templateEngine, ConfirmationTokenService confirmationTokenService, ConfirmationTokenRepository confirmationTokenRepository) {
+    public RegistrationService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, PasswordValidator passwordValidator, TemplateEngine templateEngine, ConfirmationTokenService confirmationTokenService, ConfirmationTokenRepository confirmationTokenRepository, NotificationClient notificationClient) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordValidator = passwordValidator;
         this.templateEngine = templateEngine;
         this.confirmationTokenService = confirmationTokenService;
         this.confirmationTokenRepository = confirmationTokenRepository;
+        this.notificationClient = notificationClient;
     }
 
     public ResponseEntity<Integer> register(AppUserDTO appUserDTO) {
@@ -59,8 +62,9 @@ public class RegistrationService {
         Integer userId = appUserRepository.saveAndFlush(createdUser).getId();
 
         String token = confirmationTokenService.generateConfirmationToken(createdUser);
-        String baseUrl = "http://localhost:8081";
-        String link = baseUrl + "/api/registration/confirm?token=" + token;
+        //TODO: change so it sends to loadbalancer
+        String baseUrl = "http://localhost:8080"; // send request to api gateway
+        String link = baseUrl + "/api/confirm?token=" + token;
 
         // Notification request is ready to be sent to notification service
         NotificationRequest notificationRequest = new NotificationRequest(
@@ -71,7 +75,7 @@ public class RegistrationService {
 
         logger.info(generateConfirmationEmail(link,createdUser.getFirstName()));
         //TODO: send request to notification service
-
+        notificationClient.sendEmail(notificationRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userId);

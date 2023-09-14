@@ -1,4 +1,4 @@
-package com.ackerman.registrationServices;
+package com.ackerman.clients.notification;
 
 public record NotificationRequest(
         String senderEmail,
