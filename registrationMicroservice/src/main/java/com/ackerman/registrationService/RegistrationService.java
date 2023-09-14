@@ -1,5 +1,6 @@
 package com.ackerman.registrationService;
 
+import com.ackerman.amqp.RabbitMQMessageProducer;
 import com.ackerman.appUser.AppUser;
 import com.ackerman.appUser.AppUserDTO;
 import com.ackerman.appUser.AppUserRepository;
@@ -33,8 +34,7 @@ public class RegistrationService {
 
     private final ConfirmationTokenService confirmationTokenService;
 
-
-    private final EmailClient emailClient;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     @Value("${app.api-gateway-address}")
     private String apiGatewayUrl;
@@ -43,13 +43,13 @@ public class RegistrationService {
     private String confirmationEmailTemplateName;
 
     @Autowired
-    public RegistrationService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, PasswordValidator passwordValidator, TemplateEngine templateEngine, ConfirmationTokenService confirmationTokenService, EmailClient emailClient) {
+    public RegistrationService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, PasswordValidator passwordValidator, TemplateEngine templateEngine, ConfirmationTokenService confirmationTokenService, RabbitMQMessageProducer rabbitMQMessageProducer) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordValidator = passwordValidator;
         this.templateEngine = templateEngine;
         this.confirmationTokenService = confirmationTokenService;
-        this.emailClient = emailClient;
+        this.rabbitMQMessageProducer = rabbitMQMessageProducer;
     }
 
     public ResponseEntity<Integer> register(AppUserDTO appUserDTO) {
@@ -72,7 +72,13 @@ public class RegistrationService {
 
         //TODO: send it to message queue
         //send request to email service with the use of feign client
-        emailClient.sendEmail(confirmationRequest);
+        //emailClient.sendEmail(confirmationRequest);
+
+        rabbitMQMessageProducer.publish(
+                confirmationRequest,
+                "internal.exchange",
+                "internal.email.routing-key"
+                );
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userId);
