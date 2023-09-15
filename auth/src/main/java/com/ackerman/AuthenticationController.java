@@ -1,14 +1,14 @@
-package com.ackerman.auth;
-
+package com.ackerman;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(path = "/api/auth")
 public class AuthenticationController {
-
 
     private final AuthenticationService authenticationService;
 
@@ -18,9 +18,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(path = "/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest){
+    public String authenticate(@RequestBody AuthenticationRequest authenticationRequest){
         return authenticationService.authenticate(authenticationRequest);
     }
-
-
 }

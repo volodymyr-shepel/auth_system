@@ -18,8 +18,8 @@ public class SecurityConfiguration {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable);
         http
                 .authorizeExchange((exchanges) ->exchanges
-                .pathMatchers("/api/**").permitAll()
-                //.pathMatchers("/api/**").authenticated()
+                .pathMatchers("/api/registration/**").permitAll()
+                .pathMatchers("/api/auth/**").permitAll()
                 .anyExchange().permitAll());
 
 
