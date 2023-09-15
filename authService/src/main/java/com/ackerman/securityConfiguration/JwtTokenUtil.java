@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.function.Function;
 
+//TODO:fix deprecated methods
 @Component
 public class JwtTokenUtil {
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
