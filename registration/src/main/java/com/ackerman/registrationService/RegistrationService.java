@@ -5,7 +5,6 @@ import com.ackerman.appUser.AppUser;
 import com.ackerman.appUser.AppUserDTO;
 import com.ackerman.appUser.AppUserRepository;
 import com.ackerman.appUser.UserRole;
-import com.ackerman.clients.email.EmailClient;
 import com.ackerman.clients.email.ConfirmationRequest;
 import com.ackerman.confirmationToken.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,8 +115,7 @@ public class RegistrationService {
 
     private String generateConfirmationLink(AppUser createdUser) {
         String token = confirmationTokenService.generateConfirmationToken(createdUser);
-        // TODO: change so it sends on the service not on direct ip address
-        return apiGatewayUrl + "/api/confirm?token=" + token;
+        return apiGatewayUrl + "/api/registration/confirm?token=" + token;
     }
 
 

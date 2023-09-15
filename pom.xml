@@ -15,13 +15,14 @@
     <name>ecommerce-website</name>
 	<description> E-Shop Express is a user-friendly e-commerce web application for online shopping</description>
     <modules>
-        <module>registrationMicroservice</module>
+        <module>registration</module>
 		<module>apigw</module>
-        <module>eureka-server</module>
+        <module>eurekaServer</module>
         <module>clients</module>
         <module>clients</module>
         <module>email</module>
         <module>amqp</module>
+        <module>authService</module>
     </modules>
     <properties>
 		<java.version>20</java.version>
