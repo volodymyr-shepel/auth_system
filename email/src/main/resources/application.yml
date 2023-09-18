@@ -1,0 +1,43 @@
+server:
+  port: 8082
+
+app:
+  email-from: v.shepel158@gmail.com
+  email-from-name: ECommerce
+
+
+spring:
+  application:
+    name : email
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: v.shepel158@gmail.com
+    password: qtlwihuusunppdhj
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queues:
+    email: email.queue
+  routing-keys:
+    internal-email: internal.email.routing-key

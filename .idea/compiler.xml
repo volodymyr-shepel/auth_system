@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ecommerce-website" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ama" target="20" />
+      <module name="amaterasu" target="20" />
+      <module name="amqp" target="20" />
+      <module name="apiGW" target="20" />
+      <module name="authentication" target="20" />
+      <module name="authService" target="20" />
+      <module name="clients" target="20" />
+      <module name="dura" target="20" />
+      <module name="e-commerce" target="1.5" />
+      <module name="email" target="20" />
+      <module name="eurekaServer" target="20" />
+      <module name="testModule" target="20" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ama" options="-parameters" />
+      <module name="amaterasu" options="-parameters" />
+      <module name="amqp" options="-parameters" />
+      <module name="apiGW" options="-parameters" />
+      <module name="authService" options="-parameters" />
+      <module name="authentication" options="-parameters" />
+      <module name="clients" options="-parameters" />
+      <module name="dura" options="-parameters" />
+      <module name="e-commerce" options="" />
+      <module name="ecommerce-website" options="-parameters" />
+      <module name="email" options="-parameters" />
+      <module name="eurekaServer" options="-parameters" />
+      <module name="testModule" options="-parameters" />
+    </option>
+  </component>
+</project>

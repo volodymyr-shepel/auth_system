@@ -1,0 +1,53 @@
+# modify the name of the app and database name
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: authentication
+
+  datasource:
+    username: levi1
+    password: ackerman1
+    url: jdbc:postgresql://localhost:5440/user_registry
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+  zipkin:
+    base-url: http://localhost:9411
+  rabbitmq:
+    addresses: localhost:5672
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+app:
+  jwt:
+    secret: h9MzEb9WR6kz5Lhz8McrHzBCn0Z7E9nsOdfUZ3C48mA=
+  rabbitmq:
+    internal-exchange : internal.exchange
+    email-routing-key : internal.email.routing-key
+  api-gateway-address : http://localhost:8080
+  confirmation-email-template : confirmation-email-template
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+
+
+

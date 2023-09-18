@@ -1,0 +1,47 @@
+services:
+  user-service:
+    container_name: user-db
+    image: postgres
+    environment:
+
+      POSTGRES_USER: levi1
+      POSTGRES_PASSWORD: ackerman1
+
+#    The data directory contains all the data files, configuration
+#    files, and other essential information necessary for the functioning
+#    of a PostgreSQL instance
+
+      PGDATA: /data/userService
+
+    volumes:
+      - user-db-data:/data/userService
+    ports:
+      - "5440:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - spring
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - spring
+
+
+volumes:
+  user-db-data:
+
+networks:
+  postgres:
+  spring:
