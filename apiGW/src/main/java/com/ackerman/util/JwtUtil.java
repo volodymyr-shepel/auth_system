@@ -60,4 +60,11 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
+    public List<String> extractRoles(String token) {
+        return extractClaim(token, claims -> {
+            // Assuming "roles" is the key for the claim containing roles
+            return (List<String>) claims.get("roles");
+        });
+    }
+
 }

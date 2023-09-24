@@ -20,6 +20,8 @@
         <module>eurekaServer</module>
         <module>email</module>
         <module>amqp</module>
+        <module>userService</module>
+		<module>adminService</module>
 	</modules>
     <properties>
 		<java.version>20</java.version>

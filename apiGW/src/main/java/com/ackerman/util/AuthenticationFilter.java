@@ -1,5 +1,6 @@
 package com.ackerman.util;
 
+import com.ackerman.exception.JwtValidationException;
 import com.google.common.net.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -29,7 +30,7 @@ public class AuthenticationFilter extends
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
             if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                throw new RuntimeException("missing authorization header");
+                throw new JwtValidationException("missing authorization header");
             }
 
             String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
@@ -41,6 +42,8 @@ public class AuthenticationFilter extends
             // change it or just move the validation process inside the api gateway?
             //template.getForObject("http://localhost:8083/api/auth/validate?token=" + authHeader, String.class);
             jwtUtil.validateToken(authHeader);
+
+            System.out.println(jwtUtil.extractRoles(authHeader));
 
             return chain.filter(exchange);
         }));

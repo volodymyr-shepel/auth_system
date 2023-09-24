@@ -15,6 +15,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/EmailSender/pom.xml" />
+        <option value="$PROJECT_DIR$/admin/pom.xml" />
         <option value="$PROJECT_DIR$/ama/pom.xml" />
         <option value="$PROJECT_DIR$/amaterasu/pom.xml" />
         <option value="$PROJECT_DIR$/auth/pom.xml" />

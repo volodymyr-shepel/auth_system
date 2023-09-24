@@ -1,5 +1,5 @@
-### the file which contains description of the project
-description
+### the folder which contains description of the project
+documentation/
 ### may also contain sensitive information(prepare bluepring at the end)
 docker-compose.yml
 ### Configuration file which contains sensitive information

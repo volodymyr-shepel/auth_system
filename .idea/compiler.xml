@@ -6,26 +6,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ecommerce-website" />
+        <module name="apiGW" />
+        <module name="amqp" />
+        <module name="eurekaServer" />
+        <module name="email" />
+        <module name="authentication" />
+        <module name="userService" />
+        <module name="adminService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="admin" target="20" />
       <module name="ama" target="20" />
       <module name="amaterasu" target="20" />
-      <module name="amqp" target="20" />
-      <module name="apiGW" target="20" />
-      <module name="authentication" target="20" />
       <module name="authService" target="20" />
       <module name="clients" target="20" />
       <module name="dura" target="20" />
-      <module name="e-commerce" target="1.5" />
-      <module name="email" target="20" />
-      <module name="eurekaServer" target="20" />
+      <module name="ecommerce-website" target="20" />
       <module name="testModule" target="20" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="adminService" options="-parameters" />
       <module name="ama" options="-parameters" />
       <module name="amaterasu" options="-parameters" />
       <module name="amqp" options="-parameters" />
@@ -39,6 +42,7 @@
       <module name="email" options="-parameters" />
       <module name="eurekaServer" options="-parameters" />
       <module name="testModule" options="-parameters" />
+      <module name="userService" options="-parameters" />
     </option>
   </component>
 </project>
