@@ -4,5 +4,7 @@ package com.ackerman.appUser;
 public record AppUserDTO(String email,
                          String firstName,
                          String lastName,
-                         String password) {
+                         String password,
+
+                         UserRole userRole) {
 }

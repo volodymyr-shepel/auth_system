@@ -35,6 +35,7 @@ public class AuthenticationService {
         //extracts the authenticated user's information from the Authentication object's principal
         AppUser user = (AppUser) authentication.getPrincipal();
 
+
         return jwtUtil.generateToken(user);
     }
 

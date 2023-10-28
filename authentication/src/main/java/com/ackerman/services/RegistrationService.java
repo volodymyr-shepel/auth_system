@@ -106,7 +106,7 @@ public class RegistrationService {
                 appUserDTO.firstName(),
                 appUserDTO.lastName(),
                 encodedPassword,
-                UserRole.USER
+                appUserDTO.userRole()
         );
     }
 

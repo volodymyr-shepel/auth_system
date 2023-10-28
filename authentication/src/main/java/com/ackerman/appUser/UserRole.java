@@ -1,6 +1,8 @@
 package com.ackerman.appUser;
 
 public enum UserRole {
-    USER,
-    ADMIN
+    CUSTOMER,
+    SELLER,
+    ADMIN,
+    SUPER_ADMIN
 }

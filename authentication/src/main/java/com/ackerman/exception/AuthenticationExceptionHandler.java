@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,7 +17,8 @@ import java.util.stream.Collectors;
 public class AuthenticationExceptionHandler {
     @ExceptionHandler(value = {
             PasswordValidationException.class,
-            InvalidConfirmationTokenException.class
+            InvalidConfirmationTokenException.class,
+            UsernameNotFoundException.class
     })
     public ResponseEntity<Object> handleCustomExceptions(RuntimeException e) {
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;

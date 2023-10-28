@@ -1,12 +1,15 @@
 package com.ackerman.util;
 
 import com.ackerman.exception.JwtValidationException;
+import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerWebExchange;
+
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.*;
@@ -19,7 +22,7 @@ public class JwtUtil {
     private String SECRET_KEY;
 
 
-    public Boolean validateToken(String token) {
+    public void validateToken(String token) {
         try {
             // Parse and validate the token
             Jws<Claims> claimsJws = Jwts.parserBuilder()
@@ -28,7 +31,6 @@ public class JwtUtil {
                     .parseClaimsJws(token);
 
             // If no exceptions are thrown, the token is valid
-            return true;
         } catch (Exception e) {
             throw new JwtValidationException("JWT token validation failed: " + e.getMessage());
         }
@@ -52,19 +54,40 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-    private Claims extractAllClaims(String token) {
+    protected Claims extractAllClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
-
-    public List<String> extractRoles(String token) {
-        return extractClaim(token, claims -> {
-            // Assuming "roles" is the key for the claim containing roles
-            return (List<String>) claims.get("roles");
-        });
+    public List<UserRole> extractRolesFromToken(String authHeader) {
+        Claims claims = extractAllClaims(authHeader);
+        return (List<UserRole>) claims.get("roles");
     }
+
+    public void checkUserRole(String authHeader, UserRole requiredRole) {
+        List<UserRole> roles = extractRolesFromToken(authHeader);
+
+        if (!roles.contains(requiredRole.toString())) {
+            throw new IllegalStateException("In order to access this endpoint '" + requiredRole + "' role is required");
+        }
+    }
+
+    public static String extractAuthToken(ServerWebExchange exchange) {
+        if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+            throw new JwtValidationException("Missing authorization header");
+        }
+
+        String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            authHeader = authHeader.substring(7);
+        }
+
+        return authHeader;
+    }
+
+
+
 
 }

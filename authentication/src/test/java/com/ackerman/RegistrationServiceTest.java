@@ -75,7 +75,7 @@ public class RegistrationServiceTest {
     @Test
     public void testCreateUserFromDTO() {
         // Arrange
-        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "StrongP@ssw0rd");
+        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "StrongP@ssw0rd",UserRole.CUSTOMER);
         String encodedPassword = "encodedPassword";
 
         // Mock the behavior of the PasswordEncoder
@@ -89,16 +89,16 @@ public class RegistrationServiceTest {
         assertEquals(appUserDTO.firstName(), result.getFirstName());
         assertEquals(appUserDTO.lastName(), result.getLastName());
         assertEquals(encodedPassword, result.getPassword());
-        assertEquals(UserRole.USER, result.getRole());
+        assertEquals(UserRole.CUSTOMER, result.getRole());
     }
 
     @Test
     public void testRegisterUserWithValidPassword() {
         // Arrange
-        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "StrongP@ssw0rd");
+        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "StrongP@ssw0rd",UserRole.CUSTOMER);
         doNothing().when(passwordValidator).validate("StrongP@ssw0rd");
 
-        AppUser createdUser = new AppUser(1, appUserDTO.email(), appUserDTO.firstName(), appUserDTO.lastName(), "encodedPassword", UserRole.USER);
+        AppUser createdUser = new AppUser(1, appUserDTO.email(), appUserDTO.firstName(), appUserDTO.lastName(), "encodedPassword", UserRole.CUSTOMER);
         when(appUserRepository.saveAndFlush(any(AppUser.class))).thenReturn(createdUser);
 
         // Act
@@ -112,7 +112,7 @@ public class RegistrationServiceTest {
     @Test
     public void testRegisterUserWithInvalidPassword() {
         // Arrange
-        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "weak");
+        AppUserDTO appUserDTO = new AppUserDTO("test@example.com", "John", "Doe", "weak",UserRole.CUSTOMER);
         doThrow(PasswordValidationException.class).when(passwordValidator).validate("weak");
 
 

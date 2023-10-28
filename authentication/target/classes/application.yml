@@ -7,6 +7,18 @@ spring:
   application:
     name: authentication
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 133042610566-oruioddmvudi9j7qdn2mletad8s9h6kj.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
+
   datasource:
     username: levi1
     password: ackerman1

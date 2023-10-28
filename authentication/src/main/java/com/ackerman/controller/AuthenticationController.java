@@ -7,17 +7,18 @@ import com.ackerman.util.AuthenticationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping(path = "/api/auth")
-public class AuthenticationContoller {
+public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
     private final RegistrationService registrationService;
 
     @Autowired
-    public AuthenticationContoller(AuthenticationService authenticationService, RegistrationService registrationService) {
+    public AuthenticationController(AuthenticationService authenticationService, RegistrationService registrationService) {
         this.authenticationService = authenticationService;
         this.registrationService = registrationService;
     }
@@ -37,6 +38,11 @@ public class AuthenticationContoller {
     @PostMapping(path = "/authenticate")
     public String authenticate(@RequestBody AuthenticationRequest authenticationRequest){
         return authenticationService.authenticate(authenticationRequest);
+    }
+
+    @GetMapping(path = "/loginWithGoogle")
+    public RedirectView loginWithGoogle() {
+        return new RedirectView("/oauth2/authorization/google");
     }
 
 }

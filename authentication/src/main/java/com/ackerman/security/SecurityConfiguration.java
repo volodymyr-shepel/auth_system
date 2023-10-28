@@ -2,6 +2,8 @@ package com.ackerman.security;
 
 import com.ackerman.appUser.AppUserRepository;
 import com.ackerman.appUser.AppUserDetailsService;
+import com.ackerman.services.CustomOAuth2UserService;
+import com.ackerman.util.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,11 +29,22 @@ public class SecurityConfiguration {
     private final PasswordEncoder passwordEncoder;
 
 
-    @Autowired
-    public SecurityConfiguration(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
+    private final CustomOAuth2UserService oauthUserService;
+
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+
+    public SecurityConfiguration(AppUserRepository appUserRepository,
+                                 PasswordEncoder passwordEncoder,
+                                 CustomOAuth2UserService oauthUserService,
+                                 CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.oauthUserService = oauthUserService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
+
+    @Autowired
 
 
     // Security Filter Chain
@@ -38,15 +52,25 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable);
         http
-                .authorizeHttpRequests((authz) -> authz
-                        .anyRequest().permitAll()
-                );
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .anyRequest().authenticated()
+
+                )
+
+                .oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .loginPage("https://www.google.com/")
+                                .userInfoEndpoint((endpoint) -> endpoint.userService(oauthUserService))
+                                .successHandler(customAuthenticationSuccessHandler)
+                )
+                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll);
 
         http.authenticationProvider(authenticationProvider());
 
-
         return http.build();
     }
+    
 
     // Authentication manager is responsible for performing authentication.It's responsible for verifying the identity
     // of a user by validating their credentials (e.g., username and password)

@@ -20,7 +20,7 @@
         <module>eurekaServer</module>
         <module>email</module>
         <module>amqp</module>
-        <module>userService</module>
+        <module>customerService</module>
 		<module>adminService</module>
 	</modules>
     <properties>
