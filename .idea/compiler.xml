@@ -24,6 +24,7 @@
       <module name="dura" target="20" />
       <module name="ecommerce-website" target="20" />
       <module name="testModule" target="20" />
+      <module name="userService" target="20" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
