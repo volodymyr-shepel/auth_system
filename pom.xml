@@ -22,6 +22,7 @@
         <module>amqp</module>
         <module>customerService</module>
 		<module>adminService</module>
+		<module>UIService</module>
 	</modules>
     <properties>
 		<java.version>20</java.version>

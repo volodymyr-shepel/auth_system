@@ -7,6 +7,7 @@ spring:
   application:
     name: authentication
 
+
   security:
     oauth2:
       client:
@@ -25,7 +26,7 @@ spring:
     url: jdbc:postgresql://localhost:5440/user_registry
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

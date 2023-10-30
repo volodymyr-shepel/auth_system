@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping(path = "/api/auth")
+//@CrossOrigin
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -26,6 +27,7 @@ public class AuthenticationController {
     // used to send registration request
     @PostMapping(path = "/register")
     public ResponseEntity<Integer> register(@RequestBody AppUserDTO appUserDTO){
+        System.out.println("REGISTER CALLED");
         return registrationService.register(appUserDTO);
     }
 
@@ -37,6 +39,7 @@ public class AuthenticationController {
 
     @PostMapping(path = "/authenticate")
     public String authenticate(@RequestBody AuthenticationRequest authenticationRequest){
+        System.out.println("AUTHENTICATE");
         return authenticationService.authenticate(authenticationRequest);
     }
 

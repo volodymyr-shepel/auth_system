@@ -9,6 +9,7 @@
         <module name="apiGW" />
         <module name="customerService" />
         <module name="amqp" />
+        <module name="UIService" />
         <module name="eurekaServer" />
         <module name="email" />
         <module name="authentication" />
@@ -28,6 +29,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="UIService" options="-parameters" />
       <module name="adminService" options="-parameters" />
       <module name="ama" options="-parameters" />
       <module name="amaterasu" options="-parameters" />

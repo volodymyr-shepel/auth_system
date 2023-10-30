@@ -54,13 +54,13 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
 
                 )
 
                 .oauth2Login(oauth2Login ->
                         oauth2Login
-                                .loginPage("https://www.google.com/")
+                                .loginPage("http://localhost:8086/static/home") // The page to which redirects
                                 .userInfoEndpoint((endpoint) -> endpoint.userService(oauthUserService))
                                 .successHandler(customAuthenticationSuccessHandler)
                 )
