@@ -1,4 +1,4 @@
-/* style.css */
+/* registration_style.css */
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f4f4f4;
@@ -22,7 +22,7 @@ h2 {
     text-align: center;
 }
 
-.form-group {
+div {
     margin: 10px 0;
 }
 
@@ -30,7 +30,7 @@ label {
     display: block;
 }
 
-input {
+input, select {
     width: 100%;
     padding: 10px;
     margin: 5px 0;

@@ -60,7 +60,7 @@ public class SecurityConfiguration {
 
                 .oauth2Login(oauth2Login ->
                         oauth2Login
-                                .loginPage("http://localhost:8086/static/home") // The page to which redirects
+                                .loginPage("http://localhost/api/ui/login") // The page to which redirects
                                 .userInfoEndpoint((endpoint) -> endpoint.userService(oauthUserService))
                                 .successHandler(customAuthenticationSuccessHandler)
                 )

@@ -37,10 +37,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // For example, you can call a service to process post-login actions
 
 
-        userService.processCustomOAuthPostLogin(oAuth2User);
+        userService.processCustomOAuthPostLogin(oAuth2User,request,response);
 
 
         // TODO:Direct to home page after successful authentication
-        response.sendRedirect("https://www.google.com/");
+        response.sendRedirect("http://localhost:80/api/ui/home");
     }
 }

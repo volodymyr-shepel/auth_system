@@ -4,6 +4,8 @@ import com.ackerman.appUser.AppUserDTO;
 import com.ackerman.services.AuthenticationService;
 import com.ackerman.services.RegistrationService;
 import com.ackerman.util.AuthenticationRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping(path = "/api/auth")
-//@CrossOrigin
+@CrossOrigin
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -27,7 +29,6 @@ public class AuthenticationController {
     // used to send registration request
     @PostMapping(path = "/register")
     public ResponseEntity<Integer> register(@RequestBody AppUserDTO appUserDTO){
-        System.out.println("REGISTER CALLED");
         return registrationService.register(appUserDTO);
     }
 
@@ -38,9 +39,8 @@ public class AuthenticationController {
     }
 
     @PostMapping(path = "/authenticate")
-    public String authenticate(@RequestBody AuthenticationRequest authenticationRequest){
-        System.out.println("AUTHENTICATE");
-        return authenticationService.authenticate(authenticationRequest);
+    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request, HttpServletResponse response){
+        return authenticationService.authenticate(authenticationRequest,request,response);
     }
 
     @GetMapping(path = "/loginWithGoogle")

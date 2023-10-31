@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -75,17 +76,17 @@ public class JwtUtil {
     }
 
     public static String extractAuthToken(ServerWebExchange exchange) {
-        if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-            throw new JwtValidationException("Missing authorization header");
+        HttpCookie tokenCookie = exchange.getRequest()
+                .getCookies()
+                .getFirst("jwtToken");
+
+        if (tokenCookie == null) {
+            throw new JwtValidationException("Token cookie not found");
         }
 
-        String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            authHeader = authHeader.substring(7);
-        }
-
-        return authHeader;
+        return tokenCookie.getValue();
     }
+
 
 
 

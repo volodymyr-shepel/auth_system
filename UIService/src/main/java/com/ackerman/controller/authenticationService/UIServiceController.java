@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/static")
+@RequestMapping(path = "/api/ui")
 @CrossOrigin
 public class UIServiceController {
     @GetMapping(path = "/login")
@@ -20,5 +20,12 @@ public class UIServiceController {
     public String getHomePage(){
         return "home";
     }
+
+    @GetMapping(path = "/registration")
+    public String getRegistrationPage(){
+        return "registration";
+    }
+
+
 
 }

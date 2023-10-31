@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login Form</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" type="text/css" href="http://mot.com/api/ui/css/login_style.css" />
 </head>
 <body>
 <div class="container">
     <h2>Login</h2>
     <form id="loginForm">
-    <div>
+        <div>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" />
         </div>
-
         <div>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" />
         </div>
-        <button type="button" onclick="submitForm()">Login</button>
-    </form>
-    <script src="/js/script.js"></script>
+        <div id="errorMessage" style="color: red;"></div> <!-- Add this line for displaying error message -->
+        <button type="button" onclick="submitLoginForm()">Login</button>
+        <a id="googleLogin" href="http://localhost:8081/api/auth/loginWithGoogle">Login with Google</a>
 
+    </form>
+    <p>Already have an account? <a href="http://localhost:80/api/ui/registration">Register</a></p>
+    <script src="http://localhost:80/api/ui/js/login_script.js"></script>
 </div>
 </body>
 </html>

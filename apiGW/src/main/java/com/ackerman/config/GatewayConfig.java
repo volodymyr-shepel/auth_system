@@ -37,6 +37,8 @@ public class GatewayConfig {
                 .route("admin-service-route", r -> r.path("/api/admin/**")
                         .filters(f->f.filter(adminAuthenticationFilter.apply(new AdminAuthenticationFilter.Config())))
                         .uri("lb://ADMIN-SERVICE"))
+                .route("ui-service-route", r -> r.path("/api/ui/**")
+                        .uri("lb://UI-SERVICE"))
                 .build();
     }
 }
