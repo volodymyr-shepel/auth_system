@@ -38,9 +38,10 @@ public class ConfirmationTokenService {
         return token;
     }
 
+
     @Transactional
     // used to verify if the confirmation token is valid, and if it is - enable user account
-    public ResponseEntity<String> confirmToken(String token){
+    public void confirmToken(String token){
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
                 .orElseThrow(() ->
                         new InvalidConfirmationTokenException("token not found"));
@@ -59,6 +60,6 @@ public class ConfirmationTokenService {
 
         appUser.setIsEnabled(true);
 
-        return ResponseEntity.ok("Confirmed");
+
     }
 }

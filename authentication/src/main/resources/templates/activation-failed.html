@@ -8,7 +8,8 @@
 </head>
 <body>
 <div class="banner">
-    <h1 th:text="${message}">Activation Failed</h1>
+    <h1>Activation Failed</h1>
+    <h2 th:text="${error}">Some error</h2>
 </div>
 <div class="login-button">
     <a th:href="@{http://mot.com/api/ui/login}">Go to Login Page</a>

@@ -47,6 +47,8 @@ public class AuthenticationService {
             cookie.setPath("/"); // Set the cookie path as needed
             response.addCookie(cookie);
 
+
+
             return ResponseEntity.ok(jwtToken);
         }
         catch(org.springframework.security.core.AuthenticationException e){

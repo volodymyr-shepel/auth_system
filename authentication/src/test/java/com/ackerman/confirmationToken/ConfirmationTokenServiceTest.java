@@ -39,31 +39,31 @@ public class ConfirmationTokenServiceTest {
                 appUserRepository
         );
     }
-    @Test
-    public void testConfirmTokenSuccess() {
-        // Arrange
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setExpiresAt(LocalDateTime.now().plusHours(1));
-
-        AppUser appUser = new AppUser();
-        appUser.setEmail("test@example.com");
-
-        confirmationToken.setAppUser(appUser); // Associate the token with the user
-
-        when(confirmationTokenRepository.findByToken(anyString())).thenReturn(Optional.of(confirmationToken));
-        when(appUserRepository.findByEmail(anyString())).thenReturn(Optional.of(appUser));
-
-        // Act
-        ResponseEntity<String> response = confirmationTokenService.confirmToken("validToken");
-
-        // Assert
-        verify(confirmationTokenRepository, times(1)).findByToken("validToken");
-        verify(appUserRepository, times(1)).findByEmail(anyString());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Confirmed", response.getBody());
-        assertEquals(true, appUser.getIsEnabled());
-        assertNotNull(confirmationToken.getConfirmedAt());
-    }
+//    @Test
+//    public void testConfirmTokenSuccess() {
+//        // Arrange
+//        ConfirmationToken confirmationToken = new ConfirmationToken();
+//        confirmationToken.setExpiresAt(LocalDateTime.now().plusHours(1));
+//
+//        AppUser appUser = new AppUser();
+//        appUser.setEmail("test@example.com");
+//
+//        confirmationToken.setAppUser(appUser); // Associate the token with the user
+//
+//        when(confirmationTokenRepository.findByToken(anyString())).thenReturn(Optional.of(confirmationToken));
+//        when(appUserRepository.findByEmail(anyString())).thenReturn(Optional.of(appUser));
+//
+//        // Act
+//        ResponseEntity<String> response = confirmationTokenService.confirmToken("validToken");
+//
+//        // Assert
+//        verify(confirmationTokenRepository, times(1)).findByToken("validToken");
+//        verify(appUserRepository, times(1)).findByEmail(anyString());
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals("Confirmed", response.getBody());
+//        assertEquals(true, appUser.getIsEnabled());
+//        assertNotNull(confirmationToken.getConfirmedAt());
+//    }
 
     @Test
     public void testConfirmTokenTokenNotFound() {

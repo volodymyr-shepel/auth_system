@@ -6,6 +6,7 @@ import com.ackerman.appUser.AppUserDTO;
 import com.ackerman.appUser.AppUserRepository;
 import com.ackerman.appUser.UserRole;
 import com.ackerman.confirmationToken.ConfirmationTokenService;
+import com.ackerman.exception.InvalidConfirmationTokenException;
 import com.ackerman.util.EmailRequest;
 import com.ackerman.util.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -86,8 +88,16 @@ public class RegistrationService {
     }
 
     @Transactional
-    public ResponseEntity<String> confirmEmail(String token) {
-        return confirmationTokenService.confirmToken(token);
+    public String confirmEmail(String token, Model model) {
+        try{
+            confirmationTokenService.confirmToken(token);
+            return "activation-success";
+        }
+        catch (InvalidConfirmationTokenException e){
+            model.addAttribute("error",e.getMessage());
+            return "activation-failed";
+        }
+
     }
 
 

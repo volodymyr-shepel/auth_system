@@ -1,4 +1,3 @@
-
 function submitRegistrationForm() {
     // Get form elements
     const email = document.getElementById("email").value;
@@ -24,13 +23,37 @@ function submitRegistrationForm() {
         },
         body: JSON.stringify(formData)
     })
-        .then(response => response.json())
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message);
+                });
+            }
+        })
         .then(data => {
-            // Handle the response from the server, e.g., show a success message or handle errors
-            console.log(data);
+            // Get the registrationMessage div element
+            const registrationMessage = document.getElementById("registrationMessage");
+
+            // Set the success message
+            registrationMessage.textContent = "Registration successful. Confirmation email has been sent.";
+            registrationMessage.style.color = "green";
+
+            // Make the message div visible
+            registrationMessage.style.display = "block";
         })
         .catch(error => {
-            // Handle any errors that occurred during the fetch.
+            // Get the registrationMessage div element
+            const registrationMessage = document.getElementById("registrationMessage");
+
+            // Set the error message
+            registrationMessage.textContent = "Registration failed. " + error.message; // Display the error message from the API
+            registrationMessage.style.color = "red";
+
+            // Make the message div visible
+            registrationMessage.style.display = "block";
+
             console.error('Error:', error);
         });
 }
