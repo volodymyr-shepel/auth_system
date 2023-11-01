@@ -16,7 +16,7 @@ function submitRegistrationForm() {
     };
 
     // Send a POST request to the registration endpoint
-    fetch('http://localhost:80/api/auth/register', {
+    fetch('http://localhost/api/auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

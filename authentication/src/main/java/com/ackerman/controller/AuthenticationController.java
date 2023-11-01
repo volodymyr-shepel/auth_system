@@ -49,8 +49,9 @@ public class AuthenticationController {
 
     @GetMapping(path = "/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwtToken", null);
-        cookie.setMaxAge(0);
+        System.out.println("CALLED HERE");
+        Cookie cookie = new Cookie("jwtToken", "");
+        cookie.setDomain("localhost");
         cookie.setHttpOnly(true);
         cookie.setSecure(request.isSecure()); // Optionally set the "secure" flag for HTTPS
         cookie.setPath("/"); // Set the cookie path as needed

@@ -42,6 +42,7 @@ public class AuthenticationService {
 
             String jwtToken = jwtUtil.generateToken(user);
             Cookie cookie = new Cookie("jwtToken", jwtToken);
+            cookie.setDomain("localhost");
             cookie.setHttpOnly(true);
             cookie.setSecure(request.isSecure()); // Optionally set the "secure" flag for HTTPS
             cookie.setPath("/"); // Set the cookie path as needed

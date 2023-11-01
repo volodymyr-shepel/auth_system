@@ -13,7 +13,7 @@ function submitLoginForm() {
     errorMessageElement.textContent = "";
 
     // Send the login request
-    fetch("http://localhost:80/api/auth/authenticate", {
+    fetch("http://localhost/api/auth/authenticate", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -23,7 +23,7 @@ function submitLoginForm() {
         .then(response => {
             if (response.ok) {
                 // Redirect to the home page upon successful login
-                window.location.href = "http://localhost:80/api/ui/home";
+                window.location.href = "http://localhost/api/ui/home";
             } else {
                 // Display an error message when login fails
                 errorMessageElement.textContent = "Login failed. Please try again.";

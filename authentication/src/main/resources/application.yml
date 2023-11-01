@@ -53,7 +53,7 @@ app:
   rabbitmq:
     internal-exchange : internal.exchange
     email-routing-key : internal.email.routing-key
-  api-gateway-address : http://localhost:80
+  api-gateway-address : http://localhost
   confirmation-email-template : confirmation-email-template
 
 management:
