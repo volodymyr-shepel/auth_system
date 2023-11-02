@@ -40,7 +40,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         userService.processCustomOAuthPostLogin(oAuth2User,request,response);
 
 
-        // TODO:Direct to home page after successful authentication
         response.sendRedirect("http://localhost:80/api/ui/home");
     }
 }

@@ -47,15 +47,18 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping(path = "/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("CALLED HERE");
+    @GetMapping("/logout")
+    public RedirectView logout(HttpServletRequest request, HttpServletResponse response) {
+        // Clear the JWT cookie
         Cookie cookie = new Cookie("jwtToken", "");
         cookie.setDomain("localhost");
         cookie.setHttpOnly(true);
-        cookie.setSecure(request.isSecure()); // Optionally set the "secure" flag for HTTPS
-        cookie.setPath("/"); // Set the cookie path as needed
+        cookie.setSecure(request.isSecure());
+        cookie.setPath("/");
         response.addCookie(cookie);
+
+        // Redirect to the home page
+        return new RedirectView("http://localhost/api/ui/home");
     }
 
 }

@@ -15,7 +15,7 @@
     <name>ecommerce-website</name>
 	<description> E-Shop Express is a user-friendly e-commerce web application for online shopping</description>
     <modules>
-        <module>authentication</module>
+        <module>identityService</module>
 		<module>apiGW</module>
         <module>eurekaServer</module>
         <module>email</module>

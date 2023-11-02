@@ -7,12 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="apiGW" />
+        <module name="identityService" />
         <module name="customerService" />
         <module name="amqp" />
         <module name="UIService" />
         <module name="eurekaServer" />
         <module name="email" />
-        <module name="authentication" />
         <module name="adminService" />
       </profile>
     </annotationProcessing>
@@ -36,7 +36,6 @@
       <module name="amqp" options="-parameters" />
       <module name="apiGW" options="-parameters" />
       <module name="authService" options="-parameters" />
-      <module name="authentication" options="-parameters" />
       <module name="clients" options="-parameters" />
       <module name="customerService" options="-parameters" />
       <module name="dura" options="-parameters" />
@@ -44,6 +43,7 @@
       <module name="ecommerce-website" options="-parameters" />
       <module name="email" options="-parameters" />
       <module name="eurekaServer" options="-parameters" />
+      <module name="identityService" options="-parameters" />
       <module name="testModule" options="-parameters" />
     </option>
   </component>

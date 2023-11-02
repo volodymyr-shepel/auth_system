@@ -3,8 +3,13 @@ package com.ackerman.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @Component
 public class CustomerAuthenticationFilter extends
@@ -27,14 +32,23 @@ public class CustomerAuthenticationFilter extends
     @Override
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
-            String authHeader = JwtUtil.extractAuthToken(exchange);
+            try{
+                String authHeader = JwtUtil.extractAuthToken(exchange);
 
-            jwtUtil.validateToken(authHeader);
+                jwtUtil.validateToken(authHeader);
 
-            // Extract roles from claims
-            jwtUtil.checkUserRole(authHeader,UserRole.CUSTOMER);
+                // Extract roles from claims
+                jwtUtil.checkUserRole(authHeader,UserRole.CUSTOMER);
 
-            return chain.filter(exchange);
+                return chain.filter(exchange);
+            }
+            catch(Exception e){
+                URI loginPage = UriComponentsBuilder.fromPath("/api/ui/login").build().toUri();
+                ServerHttpResponse response = exchange.getResponse();
+                response.setStatusCode(HttpStatus.SEE_OTHER);
+                response.getHeaders().setLocation(loginPage);
+                return response.setComplete();
+            }
         }));
     }
 

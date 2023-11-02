@@ -4,7 +4,6 @@ import com.ackerman.amqp.RabbitMQMessageProducer;
 import com.ackerman.appUser.AppUser;
 import com.ackerman.appUser.AppUserDTO;
 import com.ackerman.appUser.AppUserRepository;
-import com.ackerman.appUser.UserRole;
 import com.ackerman.confirmationToken.ConfirmationTokenService;
 import com.ackerman.exception.InvalidConfirmationTokenException;
 import com.ackerman.util.EmailRequest;
@@ -36,7 +35,7 @@ public class RegistrationService {
 
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
-    @Value("${app.api-gateway-address}")
+    @Value("${app.domain-name}")
     private String apiGatewayUrl;
 
     @Value("${app.confirmation-email-template}")
@@ -60,6 +59,7 @@ public class RegistrationService {
 
 
     // used to register the user and publish EmailRequest to rabbitMQ
+    @Transactional
     public ResponseEntity<Integer> register(AppUserDTO appUserDTO) {
 
         // used to validate the password
@@ -72,7 +72,6 @@ public class RegistrationService {
         Integer userId = appUserRepository.saveAndFlush(createdUser).getId();
 
         String link = generateConfirmationLink(createdUser);
-
 
         //  Request which will be sent to email service
         EmailRequest emailRequest = createEmailRequest(createdUser.getUsername(),link,createdUser.getFirstName());
@@ -96,6 +95,9 @@ public class RegistrationService {
         catch (InvalidConfirmationTokenException e){
             model.addAttribute("error",e.getMessage());
             return "activation-failed";
+        }
+        catch (Exception e){
+            return "Unexpected error occurred." + e.getMessage();
         }
 
     }

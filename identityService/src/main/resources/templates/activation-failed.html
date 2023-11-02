@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activation Failed</title>
-    <link rel="stylesheet" type="text/css" href="http://localhost/api/auth/css/activation_failed_style.css">
+    <link rel="stylesheet" th:href="${@environment.getProperty('app.domain-name') + '/api/auth/css/activation_failed_style.css'}">
+
 </head>
 <body>
 <div class="banner">
@@ -12,7 +13,8 @@
     <h2 th:text="${error}">Some error</h2>
 </div>
 <div class="login-button">
-    <a th:href="@{http://mot.com/api/ui/login}">Go to Login Page</a>
+    <a th:href="${@environment.getProperty('app.domain-name') + '/api/ui/login'}">Go to Login Page</a>
+
 </div>
 </body>
 </html>

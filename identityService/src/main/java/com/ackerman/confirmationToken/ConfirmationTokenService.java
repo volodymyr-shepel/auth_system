@@ -39,18 +39,20 @@ public class ConfirmationTokenService {
     }
 
 
-    @Transactional
     // used to verify if the confirmation token is valid, and if it is - enable user account
     public void confirmToken(String token){
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
                 .orElseThrow(() ->
                         new InvalidConfirmationTokenException("token not found"));
+
         if (confirmationToken.getConfirmedAt() != null) {
             throw new InvalidConfirmationTokenException("token was already submitted");
         }
+
         if (LocalDateTime.now().isAfter(confirmationToken.getExpiresAt())) {
             throw new InvalidConfirmationTokenException("Token has expired");
         }
+
 
         AppUser appUser = appUserRepository.findByEmail(
                 confirmationToken.getAppUser().getUsername()).orElseThrow(() ->
