@@ -26,8 +26,6 @@ public class GatewayConfig {
         return builder.routes()
                 .route("registration-service-route", r -> r.path("/api/auth/**")
                         .uri("lb://AUTHENTICATION"))
-
-
                 .route("email-service-route", r -> r.path("/api/email/**")
                         //.filters(f->f.filter(customerAuthenticationFilter.apply(new CustomerAuthenticationFilter.Config())))
                         .uri("lb://EMAIL"))

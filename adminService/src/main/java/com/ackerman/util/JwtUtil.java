@@ -5,14 +5,18 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpCookie;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ServerWebExchange;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -54,6 +58,7 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     protected Claims extractAllClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
     }
@@ -61,33 +66,43 @@ public class JwtUtil {
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
-    public List<UserRole> extractRolesFromToken(String authHeader) {
+
+    public List<String> extractRolesFromToken(String authHeader) {
         Claims claims = extractAllClaims(authHeader);
-        return (List<UserRole>) claims.get("roles");
+        return (List<String>) claims.get("roles");
+    }
+    public List<GrantedAuthority> extractAuthoritiesFromToken(String authHeader) {
+        List<String> userRoles = extractRolesFromToken(authHeader);
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (String role : userRoles) {
+            // Assuming your UserRole class has a method to get the role name
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
     }
 
     public void checkUserRole(String authHeader, UserRole requiredRole) {
-        List<UserRole> roles = extractRolesFromToken(authHeader);
+        List<String> roles = extractRolesFromToken(authHeader);
 
         if (!roles.contains(requiredRole.toString())) {
             throw new IllegalStateException("In order to access this endpoint '" + requiredRole + "' role is required");
         }
     }
 
-    public static String extractAuthToken(ServerWebExchange exchange) {
-        HttpCookie tokenCookie = exchange.getRequest()
-                .getCookies()
-                .getFirst("jwtToken");
+    public static String extractAuthToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
 
-        if (tokenCookie == null) {
-            throw new JwtValidationException("Token cookie not found");
+        if (cookies == null) {
+            throw new JwtValidationException("No cookies found in the request");
         }
 
-        return tokenCookie.getValue();
+        for (Cookie cookie : cookies) {
+            if ("jwtToken".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+
+        throw new JwtValidationException("Token cookie not found");
     }
-
-
-
-
-
 }
+
